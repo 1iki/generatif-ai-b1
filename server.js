@@ -487,7 +487,12 @@ function adminAuth(req, res, next) {
 
 // Serve admin panel HTML
 app.get(ADMIN_SECRET_PATH, adminAuth, (req, res) => {
-  res.sendFile(__dirname + '/admin.html');
+  const adminPath = path.join(__dirname, 'admin.html');
+  if (fs.existsSync(adminPath)) {
+    res.sendFile(adminPath);
+  } else {
+    res.status(404).send('Admin panel not found');
+  }
 });
 
 // Get security audit logs
