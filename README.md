@@ -278,3 +278,4 @@ Aplikasi ini dilengkapi dengan multi-layer security guardrails, namun **tidak ad
 - Jika error 401, API key salah atau tidak valid
 - Jika error 429, quota API sudah habis atau rate limit terlampaui
 # Force redeploy
+# Trigger deploy
