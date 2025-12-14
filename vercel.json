@@ -12,7 +12,7 @@
       "dest": "/server.js"
     },
     {
-      "src": "/admin-dashboard-[a-z0-9]+",
+      "src": "/admin-dashboard-(.*)",
       "dest": "/server.js"
     },
     {
