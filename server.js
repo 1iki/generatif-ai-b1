@@ -492,8 +492,43 @@ function adminAuth(req, res, next) {
 
 // Serve admin panel HTML
 app.get(ADMIN_SECRET_PATH, adminAuth, (req, res) => {
+  console.log('🔑 Admin panel route hit!');
   try {
     // Try multiple paths for Vercel compatibility
+    const possiblePaths = [
+      path.join(__dirname, 'admin.html'),
+      path.join(process.cwd(), 'admin.html'),
+      './admin.html',
+      '/var/task/admin.html'
+    ];
+    
+    let adminPath = null;
+    for (const p of possiblePaths) {
+      if (fs.existsSync(p)) {
+        adminPath = p;
+        console.log('✅ Found admin.html at:', p);
+        break;
+      }
+    }
+    
+    if (adminPath) {
+      const adminHtml = fs.readFileSync(adminPath, 'utf8');
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(adminHtml);
+    } else {
+      console.error('❌ Admin panel not found in any path:', possiblePaths);
+      res.status(404).send('Admin panel not found. Paths checked: ' + possiblePaths.join(', '));
+    }
+  } catch (error) {
+    console.error('❌ Error serving admin panel:', error);
+    res.status(500).send('Error loading admin panel');
+  }
+});
+
+// ALSO add hardcoded route for testing
+app.get('/admin-dashboard-7f3e9b2a1c8d4f6e', adminAuth, (req, res) => {
+  console.log('🔑 Hardcoded admin route hit!');
+  try {
     const possiblePaths = [
       path.join(__dirname, 'admin.html'),
       path.join(process.cwd(), 'admin.html'),
@@ -514,12 +549,10 @@ app.get(ADMIN_SECRET_PATH, adminAuth, (req, res) => {
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.send(adminHtml);
     } else {
-      console.error('Admin panel not found in any path:', possiblePaths);
-      res.status(404).send('Admin panel not found. Paths checked: ' + possiblePaths.join(', '));
+      res.status(404).send('Admin panel not found');
     }
   } catch (error) {
-    console.error('Error serving admin panel:', error);
-    res.status(500).send('Error loading admin panel');
+    res.status(500).send('Error: ' + error.message);
   }
 });
 
