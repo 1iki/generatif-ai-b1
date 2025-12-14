@@ -487,11 +487,34 @@ function adminAuth(req, res, next) {
 
 // Serve admin panel HTML
 app.get(ADMIN_SECRET_PATH, adminAuth, (req, res) => {
-  const adminPath = path.join(__dirname, 'admin.html');
-  if (fs.existsSync(adminPath)) {
-    res.sendFile(adminPath);
-  } else {
-    res.status(404).send('Admin panel not found');
+  try {
+    // Try multiple paths for Vercel compatibility
+    const possiblePaths = [
+      path.join(__dirname, 'admin.html'),
+      path.join(process.cwd(), 'admin.html'),
+      './admin.html',
+      '/var/task/admin.html'
+    ];
+    
+    let adminPath = null;
+    for (const p of possiblePaths) {
+      if (fs.existsSync(p)) {
+        adminPath = p;
+        break;
+      }
+    }
+    
+    if (adminPath) {
+      const adminHtml = fs.readFileSync(adminPath, 'utf8');
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(adminHtml);
+    } else {
+      console.error('Admin panel not found in any path:', possiblePaths);
+      res.status(404).send('Admin panel not found. Paths checked: ' + possiblePaths.join(', '));
+    }
+  } catch (error) {
+    console.error('Error serving admin panel:', error);
+    res.status(500).send('Error loading admin panel');
   }
 });
 
