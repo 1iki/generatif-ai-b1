@@ -16,11 +16,15 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/admin-dashboard-7f3e9b2a1c8d4f6e",
       "dest": "/server.js"
     },
     {
-      "src": "/admin-dashboard-(.*)",
+      "src": "/admin-dashboard-7f3e9b2a1c8d4f6e/api/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/api/(.*)",
       "dest": "/server.js"
     },
     {
