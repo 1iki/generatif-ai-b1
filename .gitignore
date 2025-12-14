@@ -1,0 +1,36 @@
+# Generated files
+.env
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel
+
+# SSL certificates
+ssl/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+/tmp/
+
+# Build
+dist/
+build/
+
+# Package manager
+.npm
+.yarn
+package-lock.json

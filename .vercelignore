@@ -1,0 +1,13 @@
+# Vercel deployment
+.vercel
+
+# SSL certificates (not needed on Vercel)
+ssl/
+
+# Logs
+*.log
+/tmp/
+
+# IDE
+.vscode/
+.idea/
