@@ -60,6 +60,11 @@ const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 const ADMIN_SECRET_PATH = process.env.ADMIN_SECRET_PATH || '/secret-admin-panel-xyz123';
 
+console.log('🔐 Admin Panel Configuration:');
+console.log('   Path:', ADMIN_SECRET_PATH);
+console.log('   Username:', ADMIN_USERNAME);
+console.log('   Password:', ADMIN_PASSWORD ? '***' : 'NOT SET');
+
 // Security audit log
 const securityAuditLog = [];
 const MAX_AUDIT_LOG_SIZE = 1000;
@@ -640,6 +645,15 @@ app.get(`${ADMIN_SECRET_PATH}/api/patterns`, adminAuth, (req, res) => {
 });
 
 // --- ADMIN PANEL (END) ---
+
+// Debug route for testing (remove in production)
+app.use((req, res, next) => {
+  console.log(`📍 ${req.method} ${req.path}`);
+  if (req.path.includes('admin-dashboard')) {
+    console.log('   Admin path detected! ADMIN_SECRET_PATH:', ADMIN_SECRET_PATH);
+  }
+  next();
+});
 
 const PORT = process.env.PORT || 3000;
 
