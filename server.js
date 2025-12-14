@@ -471,6 +471,14 @@ function adminAuth(req, res, next) {
   const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
   const [username, password] = credentials.split(':');
 
+  console.log('🔍 Auth Debug:');
+  console.log('   Received username:', JSON.stringify(username));
+  console.log('   Expected username:', JSON.stringify(ADMIN_USERNAME));
+  console.log('   Received password:', JSON.stringify(password));
+  console.log('   Expected password:', JSON.stringify(ADMIN_PASSWORD));
+  console.log('   Username match:', username === ADMIN_USERNAME);
+  console.log('   Password match:', password === ADMIN_PASSWORD);
+
   if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
     logSecurityEvent({
       type: 'ADMIN_AUTH_SUCCESS',
