@@ -4,6 +4,14 @@
     {
       "src": "server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "admin.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -24,10 +32,7 @@
       "dest": "/server.js"
     },
     {
-      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|svg|ico|html))",
-      "headers": {
-        "cache-control": "public, max-age=3600"
-      },
+      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|svg|ico))",
       "dest": "/public/$1"
     },
     {
