@@ -12,10 +12,5 @@
       "dest": "server.js"
     }
   ],
-  "env": {
-    "OPENROUTER_API_KEY": "@openrouter_api_key",
-    "ADMIN_USERNAME": "@admin_username",
-    "ADMIN_PASSWORD": "@admin_password",
-    "ADMIN_SECRET_PATH": "@admin_secret_path"
-  }
+
 }
