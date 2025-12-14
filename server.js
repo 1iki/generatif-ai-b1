@@ -9,6 +9,28 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
+
+// Security Headers (must be first)
+app.use((req, res, next) => {
+  // Content Security Policy - allow data URIs for images
+  res.setHeader(
+    'Content-Security-Policy',
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "img-src 'self' data: https:; " +
+    "font-src 'self' data:; " +
+    "connect-src 'self' https://openrouter.ai; " +
+    "frame-ancestors 'none';"
+  );
+  // Other security headers
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+
 app.use(cors());
 app.use(express.json({ limit: '10kb' })); // Batasi payload size
 app.use(express.static('public'));
